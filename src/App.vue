@@ -1,22 +1,39 @@
-<!-- options must export default with scripst -->
+<!-- copositionwe have setup function -->
 
 <script>
+// make data reactive with ref
+import { ref } from 'vue';
+
 export default {
-  data() {
+  setup() {
+    const name = ref('To Do');
+    const status = ref(false);
+    const tasks = ref(['Task A', 'Task B', 'Task C', 'Task D']);
+    let message = ref('Not Active');
+    const toggleStatus = () => {
+      if (!status.value) {
+        message.value = 'User Not Active';
+      } else {
+        message.value = 'User Active';
+      }
+      status.value = !status.value;
+    }
+
     return {
-      title: 'To Do',
-      status: true,
-      tasks: ['Task A', 'Task B', 'Task C']
-    };
+      name,
+      status,
+        tasks,
+      message,
+      toggleStatus
+    }
   },
-}
+};
 </script>
 
 <template>
   <h1>{{ title }}</h1>
-  <p v-if="status">User Active</p>
-  <p v-if="!status">User Not Active</p>
-  <button>Show Task</button>
+  <p>{{ message }}</p>
+  <button @click="toggleStatus">Show Task</button>
   <ul>
     <li v-for="(task, index) in tasks" :key="task">{{ task }} - {{ index }}</li>
   </ul>
